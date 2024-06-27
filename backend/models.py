@@ -1,8 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-
-Base = declarative_base()
+from .database import Base
 
 class User(Base):
     __tablename__ = 'users'
@@ -18,7 +16,7 @@ class Expense(Base):
     amount = Column(Float, nullable=False)
     category = Column(String, nullable=False)
     description = Column(String)
-    date = Column(Date, nullable=False)
+    date = Column(String, nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'))
 
     user = relationship("User")
