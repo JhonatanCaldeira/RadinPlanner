@@ -1,22 +1,35 @@
-from sqlalchemy.orm import Session
-from . import models, schemas
+import requests
+from schemas import UserCreate, ExpenseCreate
 
-def get_user(db: Session, user_id: int):
-    return db.query(models.User).filter(models.User.id == user_id).first()
+SUPABASE_URL = "https://txnppunaxtmrfcqbmazl.supabase.co/rest/v1/"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4bnBwdW5heHRtcmZjcWJtYXpsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcxOTM5NzM3NSwiZXhwIjoyMDM0OTczMzc1fQ.MdNhauall00lM4HNvTu5qmN03K6UcXMFoS70Y9Muk1w"
 
-def create_user(db: Session, user: schemas.UserCreate):
-    db_user = models.User(username=user.username, password=user.password)
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
+headers = {
+    "apikey": SUPABASE_KEY,
+    "Authorization": f"Bearer {SUPABASE_KEY}",
+    "Content-Type": "application/json"
+}
 
-def create_expense(db: Session, expense: schemas.ExpenseCreate):
-    db_expense = models.Expense(**expense.dict())
-    db.add(db_expense)
-    db.commit()
-    db.refresh(db_expense)
-    return db_expense
+def get_user(user_id: int):
+    response = requests.get(f"{SUPABASE_URL}users?id=eq.{user_id}", headers=headers)
+    response.raise_for_status()
+    users = response.json()
+    if users:
+        return users[0]
+    return None
 
-def get_expenses(db: Session, user_id: int, skip: int = 0, limit: int = 100):
-    return db.query(models.Expense).filter(models.Expense.user_id == user_id).offset(skip).limit(limit).all()
+def create_user(user: UserCreate):
+    response = requests.post(f"{SUPABASE_URL}users", headers=headers, json=user.dict())
+    response.raise_for_status()
+    return response.json()
+
+def create_expense(expense: ExpenseCreate):
+    response = requests.post(f"{SUPABASE_URL}expenses", headers=headers, json=expense.dict())
+    response.raise_for_status()
+    return response.json()
+
+def get_expenses(user_id: int, skip: int = 0, limit: int = 100):
+    response = requests.get(f"{SUPABASE_URL}expenses?user_id=eq.{user_id}&limit={limit}&offset={skip}", headers=headers)
+    response.raise_for_status()
+    print(response.json())
+    return response.json()

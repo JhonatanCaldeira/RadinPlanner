@@ -3,23 +3,24 @@ version: '3.8'
 services:
   backend:
     build: ./backend
+    environment:
+      - SUPABASE_KEY=your-supabase-key
     ports:
       - "8000:8000"
-    depends_on:
-      - db
+    networks:
+      - app-network
 
   frontend:
     build: ./frontend
+    environment:
+      - BACKEND_URL=http://backend:8000
     ports:
       - "8501:8501"
     depends_on:
       - backend
+    networks:
+      - app-network
 
-  db:
-    image: postgres
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: dbname
-    ports:
-      - "5432:5432"
+networks:
+  app-network:
+    driver: bridge

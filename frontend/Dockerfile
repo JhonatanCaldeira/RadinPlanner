@@ -1,7 +1,10 @@
-FROM python:3.8
+FROM python:3.8-slim
 
-COPY ./requirements.txt /app/requirements.txt
-RUN pip install -r /app/requirements.txt
-COPY ./app /app
+WORKDIR /frontend
+
+COPY ./requirements.txt /frontend/requirements.txt
+RUN pip install --no-cache-dir -r /frontend/requirements.txt
+
+COPY . /frontend
 
 CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
