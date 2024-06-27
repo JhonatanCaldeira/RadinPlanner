@@ -15,10 +15,6 @@ def get_expenses(user_id):
     else:
         st.error(f"Error fetching expenses: {response.status_code}")
         return []
-<<<<<<< HEAD
-=======
-
->>>>>>> c57bfa5956ef3b440ef0faf6e59714e25e3116b8
 def add_expense(user_id, amount, category, description, date):
     expense_data = {
         "amount": amount,
@@ -28,18 +24,11 @@ def add_expense(user_id, amount, category, description, date):
         "user_id": user_id
     }
     response = requests.post(f"{backend_url}/expenses/", json=expense_data)
-<<<<<<< HEAD
     # st.write(expense_data)
     if response.status_code == 201:
         return response.json()
     else:
         # st.error(f"Error adding expense: {response.status_code}\n{response.text}")
-=======
-    if response.status_code == 201:
-        return response.json()
-    else:
-        st.error(f"Error adding expense: {response.status_code}")
->>>>>>> c57bfa5956ef3b440ef0faf6e59714e25e3116b8
         return None
 
 st.sidebar.title("User Information")

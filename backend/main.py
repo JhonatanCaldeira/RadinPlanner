@@ -10,10 +10,7 @@ def create_user(user: schemas.UserCreate):
 
 @app.post("/expenses/", response_model=schemas.Expense)
 def create_expense(expense: schemas.ExpenseCreate):
-<<<<<<< HEAD
     print(expense)
-=======
->>>>>>> c57bfa5956ef3b440ef0faf6e59714e25e3116b8
     return crud.create_expense(expense)
 
 #@app.get("/users/{user_id}/expenses/", response_model=List[schemas.Expense])
