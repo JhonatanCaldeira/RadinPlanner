@@ -31,5 +31,5 @@ jobs:
     - name: Build and validate Docker Compose
       run: |
         docker-compose -f docker-compose.yml up -d
-        docker-compose -f docker-compose.yml run backend pytest backend/tests
+        docker-compose -f docker-compose.yml run backend pytest tests
         docker-compose -f docker-compose.yml down
