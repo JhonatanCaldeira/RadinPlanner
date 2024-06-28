@@ -21,3 +21,8 @@ def read_expenses(user_id: int, skip: int = 0, limit: int = 100):
 @app.get("/users/{user_id}")
 def get_username(user_id: int):
     return crud.get_user(user_id)
+
+@app.get("/login/{username}/{password}/")
+def get_user(username : str , password : str):
+    # print("test", username , password)
+    return crud.authantification(username, password)

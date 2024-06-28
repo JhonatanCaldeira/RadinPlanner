@@ -25,10 +25,10 @@ def create_user(user: UserCreate):
 
 def create_expense(expense: ExpenseCreate):
     expense_data = expense.dict()
-    print("Expense Data:", expense_data)  # Imprimer les données de dépense pour débogage
+    # print("Expense Data:", expense_data)  # Imprimer les données de dépense pour débogage
     response = requests.post(f"{SUPABASE_URL}expenses", headers=headers, json=expense_data)
-    print("Response Status Code:", response.status_code)
-    print("Response Text:", response.text)
+    # print("Response Status Code:", response.status_code)
+    # print("Response Text:", response.text)
     response.raise_for_status()
     # return response.json()
 
@@ -44,3 +44,12 @@ def get_expenses(user_id: int, skip: int = 0, limit: int = 100):
     response = requests.get(f"{SUPABASE_URL}expenses?user_id=eq.{user_id}&limit={limit}&offset={skip}", headers=headers)
     response.raise_for_status()
     return response.json()
+
+def authantification(user_name: str, password: str):
+    url = f"{SUPABASE_URL}users?username=eq.{user_name}&password=eq.{password}"
+    response = requests.get(url, headers=headers)
+    response.raise_for_status()
+    users = response.json()
+    if users:
+        return users[0]["id"]
+    return None
