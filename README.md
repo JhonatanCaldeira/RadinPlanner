@@ -30,7 +30,7 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur 
 1. Clonez le dépôt :
 
     ```bash
-    git clone https://github.com/votre-utilisateur/radinplanner.git
+    git clone https://github.com/JhonatanCaldeira/radinplanner.git
     cd radinplanner
     ```
 
