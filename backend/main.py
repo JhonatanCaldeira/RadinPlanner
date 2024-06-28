@@ -17,3 +17,7 @@ def create_expense(expense: schemas.ExpenseCreate):
 @app.get("/users/{user_id}/expenses/")
 def read_expenses(user_id: int, skip: int = 0, limit: int = 100):
     return crud.get_expenses(user_id, skip, limit)
+
+@app.get("/users/{user_id}")
+def get_username(user_id: int):
+    return crud.get_user(user_id)

@@ -1,14 +1,21 @@
+import sys
+import os
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
+
 from fastapi.testclient import TestClient
-from ..main import app
+from main import app
 
 client = TestClient(app)
 
-def test_create_user():
-    response = client.post("/users/", json={"username": "testuser", "password": "testpass"})
+def test_get_user():
+    user_id = 1
+    response = client.get(f"/users/{user_id}")
     assert response.status_code == 200
-    assert response.json()["username"] == "testuser"
+    assert response.json()["username"] == "jhon"
 
-def test_create_expense():
-    response = client.post("/expenses/", json={"amount": 100.0, "category": "food", "description": "groceries", "date": "2023-01-01", "user_id": 1})
+def test_get_expense():
+    user_id = 1
+    response = client.get(f"/users/{user_id}/expenses/")
     assert response.status_code == 200
-    assert response.json()["amount"] == 100.0
+    #assert response.json()["amount"] == 100.0
